@@ -21,4 +21,8 @@ cvm['id_fundo'] = cvm['id_fundo'].apply(limpaCNPJ)
 cvm['id_fundo'] = pd.to_numeric(cvm['id_fundo'])
 anbima['id_fundo'] = pd.to_numeric(anbima['id_fundo'])
 
-print(cvm.head(10))
+# Juntando as bases pela chave em comum 'id_fundo'
+tabelaFinal = pd.merge(cvm, anbima, how='inner', on='id_fundo')
+
+print(tabelaFinal.head(10))
+print(tabelaFinal.info())
