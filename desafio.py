@@ -14,6 +14,11 @@ anbima = anbima[['id_fundo', 'tributacao_alvo']]
 def limpaCNPJ(cnpj):
     return ''.join(c for c in cnpj if c.isalnum())
 
+# Retirando caracteres especiais do cnpj
 cvm['id_fundo'] = cvm['id_fundo'].apply(limpaCNPJ)
+
+# Convertendo os valores para numerico
+cvm['id_fundo'] = pd.to_numeric(cvm['id_fundo'])
+anbima['id_fundo'] = pd.to_numeric(anbima['id_fundo'])
 
 print(cvm.head(10))
