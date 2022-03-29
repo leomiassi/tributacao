@@ -10,5 +10,10 @@ anbima = pd.read_excel("data/fundos_anbima.xlsx")
 cvm = cvm[['id_fundo','TRIB_LPRAZO']]
 anbima = anbima[['id_fundo', 'tributacao_alvo']]
 
-print(cvm.head(10))
+# Função que retira os caracteres especiais
+def limpaCNPJ(cnpj):
+    return ''.join(c for c in cnpj if c.isalnum())
 
+cvm['id_fundo'] = cvm['id_fundo'].apply(limpaCNPJ)
+
+print(cvm.head(10))
