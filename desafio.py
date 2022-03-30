@@ -38,4 +38,8 @@ tabelaFinal['resultado'] = comparaTributacao(tabelaFinal)
 # Convertendo o cnpj para string, permitindo que o excel mostre corretamente o valor dessa coluna
 tabelaFinal['id_fundo'] = tabelaFinal['id_fundo'].astype(str)
 
-print(tabelaFinal.head(10))
+# Renomeando as colunas
+tabelaFinal.columns = ['CNPJ','tributacao_cvm','tributacao_anbima','resultado']
+
+# Escrevendo o resultado final para um arquivo
+tabelaFinal.to_excel('data/resultado.xlsx', index=False, header=True)
