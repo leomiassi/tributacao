@@ -24,5 +24,18 @@ anbima['id_fundo'] = pd.to_numeric(anbima['id_fundo'])
 # Juntando as bases pela chave em comum 'id_fundo'
 tabelaFinal = pd.merge(cvm, anbima, how='inner', on='id_fundo')
 
+# Funcao que compara os valores de tributação das bases
+def comparaTributacao(tabela):
+    tabelaAuxiliar = tabela.copy()  #Copiando a tabela para manter os valores originais de tributacao
+    tabelaAuxiliar['TRIB_LPRAZO'] = tabelaAuxiliar['TRIB_LPRAZO'].replace(['S'],'Longo Prazo')
+    tabelaAuxiliar['TRIB_LPRAZO'] = tabelaAuxiliar['TRIB_LPRAZO'].replace(['N/A'],'Não Aplicável')
+    tabelaAuxiliar['TRIB_LPRAZO'] = tabelaAuxiliar['TRIB_LPRAZO'].replace([np.nan],'Indefinido')
+    return np.where((tabelaAuxiliar['TRIB_LPRAZO'] == tabelaAuxiliar['tributacao_alvo']),'igual','diferente')
+
+# Recebendo o resultado em uma nova coluna
+tabelaFinal['resultado'] = comparaTributacao(tabelaFinal)
+
+# Convertendo o cnpj para string, permitindo que o excel mostre corretamente o valor dessa coluna
+tabelaFinal['id_fundo'] = tabelaFinal['id_fundo'].astype(str)
+
 print(tabelaFinal.head(10))
-print(tabelaFinal.info())
